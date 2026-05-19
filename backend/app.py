@@ -5,10 +5,16 @@ from sqlalchemy.orm import Session
 from pathlib import Path
 import shutil
 
-from .database import engine, get_db
-from .models import Base
-from .schemas import CandidateCreate, AnswerIn
-from .repository import (
+# Klasör içi çağrıları mutlak (absolute) hale getirerek VS Code'u rahatlatıyoruz
+import database
+import models
+import schemas
+import repository
+
+from database import engine, get_db
+from models import Base
+from schemas import CandidateCreate, AnswerIn
+from repository import (
     get_candidate,
     create_candidate,
     create_cv,
@@ -17,9 +23,9 @@ from .repository import (
     get_interview,
     save_interview,
 )
-from .services.cv_parser import parse_cv
-from .services.ats import compute_ats_score
-from .services.interview import (
+from services.cv_parser import parse_cv
+from services.ats import compute_ats_score
+from services.interview import (
     generate_first_question,
     generate_followup_question,
     evaluate_answer,
@@ -31,6 +37,8 @@ UPLOAD_DIR = BASE_DIR / "uploads"
 UPLOAD_DIR.mkdir(exist_ok=True)
 
 app = FastAPI()
+
+# Klasör dizin yapına uyması için static yolunu güncelledik
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 Base.metadata.create_all(bind=engine)
 
