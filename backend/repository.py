@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from .models import Candidate, CvUpload, InterviewSession
+from models import Candidate, CvUpload, InterviewSession
 
 def get_candidate(db: Session, candidate_id: int):
     return db.query(Candidate).filter(Candidate.id == candidate_id).first()

@@ -1,24 +1,28 @@
-from pathlib import Path
+import os
 from docx import Document
-import pdfplumber
-
-def extract_text_from_pdf(file_path: str) -> str:
-    text = []
-    with pdfplumber.open(file_path) as pdf:
-        for page in pdf.pages:
-            page_text = page.extract_text()
-            if page_text:
-                text.append(page_text)
-    return "\n".join(text)
-
-def extract_text_from_docx(file_path: str) -> str:
-    doc = Document(file_path)
-    return "\n".join(paragraph.text for paragraph in doc.paragraphs if paragraph.text)
+import pypdf
 
 def parse_cv(file_path: str, filename: str) -> str:
-    ext = Path(filename).suffix.lower()
-    if ext == ".pdf":
-        return extract_text_from_pdf(file_path)
+    """PDF veya Word dosyasından metni pürüzsüzce çıkaran fonksiyon"""
+    ext = os.path.splitext(filename)[1].lower()
+    text = ""
+    
     if ext == ".docx":
-        return extract_text_from_docx(file_path)
-    raise ValueError("Sadece PDF veya DOCX formatı desteklenir.")
+        doc = Document(file_path)
+        for para in doc.paragraphs:
+            if para.text:
+                text += para.text + "\n"
+    elif ext == ".pdf":
+        with open(file_path, "rb") as f:
+            reader = pypdf.PdfReader(f)
+            for page in reader.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text + "\n"
+    else:
+        raise ValueError("Desteklenmeyen dosya formatı! Sadece PDF veya DOCX yükleyin.")
+        
+    if not text.strip():
+        raise ValueError("CV dosyasının içi boş veya metin okunamadı.")
+        
+    return text

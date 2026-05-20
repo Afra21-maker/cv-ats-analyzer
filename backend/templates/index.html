@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI ATS Analyzer</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      font-family: 'Inter', sans-serif;
+    }
+
+    body{
+      background:
+      radial-gradient(circle at top left,#312e81 0%, transparent 30%),
+      radial-gradient(circle at bottom right,#0f172a 0%, transparent 30%),
+      #020617;
+      overflow-x:hidden;
+    }
+
+    .glass{
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(16px);
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .glow{
+      box-shadow: 0 0 20px rgba(99,102,241,0.45);
+    }
+
+    .card-hover{
+      transition: all .3s ease;
+    }
+
+    .card-hover:hover{
+      transform: translateY(-5px);
+      border-color:#6366f1;
+      box-shadow: 0 0 25px rgba(99,102,241,0.35);
+    }
+
+    .hidden-step{
+      display:none;
+    }
+
+    .gradient-text{
+      background: linear-gradient(to right,#818cf8,#c084fc);
+      background-clip:text;
+      -webkit-background-clip:text;
+      color: transparent;
+    }
+
+    .loader {
+      border: 4px solid rgba(255,255,255,0.1);
+      border-top: 4px solid #818cf8;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body class="text-white min-h-screen">
+
+  <section class="max-w-7xl mx-auto px-6 pt-16 pb-10">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-4 py-2 rounded-full text-sm text-indigo-300 mb-6">
+          🚀 AI Powered Career Intelligence Platform
+        </div>
+
+        <h1 class="text-5xl lg:text-7xl font-black leading-tight mb-6">
+          Build Your
+          <span class="gradient-text">
+            Tech Career
+          </span>
+          With AI
+        </h1>
+
+        <p class="text-slate-300 text-lg leading-relaxed mb-8">
+          Analyze your CV with AI-powered ATS scoring, discover missing technologies,
+          and generate personalized IT career roadmaps instantly.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <div class="glass px-5 py-3 rounded-xl">⚡ AI ATS Analysis</div>
+          <div class="glass px-5 py-3 rounded-xl">📊 Recruiter Insights</div>
+          <div class="glass px-5 py-3 rounded-xl">🧠 Career Roadmaps</div>
+        </div>
+      </div>
+
+      <div class="glass rounded-3xl p-8 glow">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h3 class="font-bold text-2xl">ATS Match Score</h3>
+            <p class="text-slate-400 text-sm">AI Resume Evaluation</p>
+          </div>
+          <div class="w-24 h-24 rounded-full border-4 border-indigo-500 flex items-center justify-center text-2xl font-black text-indigo-300">
+            87%
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between mb-1 text-sm">
+              <span>Python</span>
+              <span>95%</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2">
+              <div class="bg-indigo-500 h-2 rounded-full w-[95%]"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between mb-1 text-sm">
+              <span>Docker</span>
+              <span>42%</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2">
+              <div class="bg-pink-500 h-2 rounded-full w-[42%]"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between mb-1 text-sm">
+              <span>Kubernetes</span>
+              <span>18%</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2">
+              <div class="bg-cyan-500 h-2 rounded-full w-[18%]"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 p-5 rounded-2xl bg-slate-900/60 border border-white/5">
+          <h4 class="font-bold mb-3 text-indigo-300">AI Recommendation</h4>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Your backend fundamentals are strong. Focus on cloud-native technologies
+            and DevOps tooling to significantly increase ATS compatibility.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="step-login" class="max-w-md mx-auto px-6 mb-16">
+    <div class="glass rounded-3xl p-8">
+      <h2 class="text-3xl font-black mb-3">Start Your Journey</h2>
+      <p class="text-slate-400 mb-6">Enter your name to generate your AI career roadmap.</p>
+      
+      <input
+        type="text"
+        id="username"
+        placeholder="Your full name"
+        class="w-full bg-slate-900/60 border border-white/10 rounded-2xl px-5 py-4 outline-none focus:border-indigo-500 mb-5 text-white"
+      >
+
+      <button
+        onclick="goToRoadmaps()"
+        class="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 font-bold text-lg hover:scale-[1.02] transition-all duration-300 glow"
+      >
+        Launch Platform →
+      </button>
+    </div>
+  </section>
+
+  <section id="step-roadmaps" class="hidden-step max-w-7xl mx-auto px-6 pb-20">
+    <div class="mb-10 text-center">
+      <h2 class="text-4xl font-black mb-3">Choose Your IT Domain</h2>
+      <p class="text-slate-400">Personalized AI-generated career paths and ATS analysis</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+      
+      <button onclick="selectDomain('Cyber Security')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">🛡️</div>
+        <h3 class="font-bold text-xl mb-2">Cyber Security</h3>
+        <p class="text-slate-400 text-sm">Pentest, SIEM, network defense, logs</p>
+      </button>
+
+      <button onclick="selectDomain('Artificial Intelligence')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">🤖</div>
+        <h3 class="font-bold text-xl mb-2">AI & Data Science</h3>
+        <p class="text-slate-400 text-sm">Deep learning, TensorFlow, EDA, NLP</p>
+      </button>
+
+      <button onclick="selectDomain('Backend Development')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">⚙️</div>
+        <h3 class="font-bold text-xl mb-2">Backend Dev</h3>
+        <p class="text-slate-400 text-sm">FastAPI, Django, databases, REST APIs</p>
+      </button>
+
+      <button onclick="selectDomain('Frontend Development')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">💻</div>
+        <h3 class="font-bold text-xl mb-2">Frontend Dev</h3>
+        <p class="text-slate-400 text-sm">React.js, Redux, Tailwind, ES6 JS</p>
+      </button>
+
+      <button onclick="selectDomain('Mobile Development')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">📱</div>
+        <h3 class="font-bold text-xl mb-2">Mobile Dev</h3>
+        <p class="text-slate-400 text-sm">Flutter, React Native, iOS & Android</p>
+      </button>
+
+      <button onclick="selectDomain('DevOps')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">♾️</div>
+        <h3 class="font-bold text-xl mb-2">DevOps Eng.</h3>
+        <p class="text-slate-400 text-sm">Docker, Kubernetes, CI/CD, Ansible</p>
+      </button>
+
+      <button onclick="selectDomain('Cloud Computing')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">☁️</div>
+        <h3 class="font-bold text-xl mb-2">Cloud Computing</h3>
+        <p class="text-slate-400 text-sm">AWS, Azure, VPC, Serverless Lambda</p>
+      </button>
+
+      <button onclick="selectDomain('Database Administration')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">🗄️</div>
+        <h3 class="font-bold text-xl mb-2">Database (DBA)</h3>
+        <p class="text-slate-400 text-sm">SQL Tuning, PostgreSQL, NoSQL, Redis</p>
+      </button>
+
+      <button onclick="selectDomain('QA Test Engineering')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">🧪</div>
+        <h3 class="font-bold text-xl mb-2">QA & Test Eng.</h3>
+        <p class="text-slate-400 text-sm">Selenium, Cypress, Postman Automation</p>
+      </button>
+
+      <button onclick="selectDomain('Data Analyst')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">📊</div>
+        <h3 class="font-bold text-xl mb-2">Data Analyst</h3>
+        <p class="text-slate-400 text-sm">Power BI, Tableau, Advanced SQL, KPIs</p>
+      </button>
+
+      <button onclick="selectDomain('Embedded Systems')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">📟</div>
+        <h3 class="font-bold text-xl mb-2">Embedded Systems</h3>
+        <p class="text-slate-400 text-sm">C/C++, FreeRTOS, STM32, ARM Architecture</p>
+      </button>
+
+      <button onclick="selectDomain('Game Development')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">🎮</div>
+        <h3 class="font-bold text-xl mb-2">Game Dev</h3>
+        <p class="text-slate-400 text-sm">Unity, C#, Unreal Engine, 3D Math</p>
+      </button>
+
+      <button onclick="selectDomain('Cyber Intelligence')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">🕵️</div>
+        <h3 class="font-bold text-xl mb-2">Threat Intelligence</h3>
+        <p class="text-slate-400 text-sm">OSINT, Dark Web, MITRE ATT&CK frameworks</p>
+      </button>
+
+      <button onclick="selectDomain('Blockchain Developer')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">⛓️</div>
+        <h3 class="font-bold text-xl mb-2">Blockchain Dev</h3>
+        <p class="text-slate-400 text-sm">Solidity, Smart Contracts, Web3.js, EVM</p>
+      </button>
+
+      <button onclick="selectDomain('UI/UX Design')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">🎨</div>
+        <h3 class="font-bold text-xl mb-2">UI/UX Design</h3>
+        <p class="text-slate-400 text-sm">Figma, Wireframing, Auto-Layout, Prototyping</p>
+      </button>
+
+      <button onclick="selectDomain('System Administration')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">🖥️</div>
+        <h3 class="font-bold text-xl mb-2">System Admin</h3>
+        <p class="text-slate-400 text-sm">Active Directory, Windows Server, Sysadmin</p>
+      </button>
+
+      <button onclick="selectDomain('Network Engineering')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">🌐</div>
+        <h3 class="font-bold text-xl mb-2">Network Eng.</h3>
+        <p class="text-slate-400 text-sm">Cisco CCNA, OSPF, BGP, Firewalls</p>
+      </button>
+
+      <button onclick="selectDomain('Big Data Engineering')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">🐘</div>
+        <h3 class="font-bold text-xl mb-2">Big Data Eng.</h3>
+        <p class="text-slate-400 text-sm">Hadoop, Apache Spark, Kafka Stream, ETL</p>
+      </button>
+
+      <button onclick="selectDomain('RPA Developer')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">🤖</div>
+        <h3 class="font-bold text-xl mb-2">RPA Developer</h3>
+        <p class="text-slate-400 text-sm">UiPath Studio, Process Automation, Bots</p>
+      </button>
+
+      <button onclick="selectDomain('General Software Engineering')" class="glass rounded-3xl p-6 text-left card-hover">
+        <div class="text-4xl mb-4">🚀</div>
+        <h3 class="font-bold text-xl mb-2">General Software</h3>
+        <p class="text-slate-400 text-sm">Data Structures, Git/GitHub, Clean Code</p>
+      </button>
+
+    </div>
+
+    <div id="roadmap-display" class="hidden-step mt-10 glass rounded-3xl p-8">
+      <h2 id="selected-title" class="text-3xl font-black mb-6 gradient-text"></h2>
+      <div id="selected-content" class="text-slate-300 whitespace-pre-line leading-loose mb-8"></div>
+      
+      <button
+        onclick="showAtsSection()"
+        class="bg-gradient-to-r from-green-500 to-emerald-600 px-8 py-4 rounded-2xl font-bold hover:scale-105 transition-all"
+      >
+        📊 Analyze My CV For This Domain
+      </button>
+    </div>
+  </section>
+
+  <section id="step-ats" class="hidden-step max-w-4xl mx-auto px-6 pb-24">
+    <div class="glass rounded-3xl p-8">
+      <div class="text-center mb-8">
+        <h2 class="text-4xl font-black mb-3">AI ATS Analyzer</h2>
+        <p class="text-slate-400">Upload your CV for intelligent recruiter analysis</p>
+      </div>
+
+      <label class="border-2 border-dashed border-indigo-500/30 rounded-3xl p-12 flex flex-col items-center justify-center text-center cursor-pointer hover:border-indigo-500 transition-all">
+        <input type="file" id="cv-file" class="hidden" onchange="updateFileName()">
+        <div class="text-6xl mb-4">📂</div>
+        <h3 class="text-2xl font-bold mb-2">Drag & Drop Your CV</h3>
+        <p id="file-name" class="text-slate-400">PDF / DOCX Supported</p>
+      </label>
+
+      <button
+        onclick="runAtsAnalysis()"
+        class="w-full mt-8 py-5 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 text-xl font-bold glow hover:scale-[1.01] transition-all"
+      >
+        🔍 Start AI Analysis
+      </button>
+
+      <div id="loading" class="hidden-step mt-10 flex flex-col items-center">
+        <div class="loader mb-4"></div>
+        <p class="text-slate-400">AI is analyzing your resume...</p>
+      </div>
+
+      <div id="ats-result" class="hidden-step mt-12">
+        <div class="grid lg:grid-cols-2 gap-6">
+          <div class="glass rounded-3xl p-8 text-center">
+            <h3 class="text-xl font-bold mb-5">ATS Compatibility</h3>
+            <div id="ats-score" class="text-7xl font-black gradient-text">0%</div>
+          </div>
+
+          <div class="glass rounded-3xl p-8">
+            <h3 class="text-xl font-bold mb-5">Missing Technologies</h3>
+            <ul id="ats-missing" class="space-y-3 text-slate-300"></ul>
+          </div>
+        </div>
+
+        <div class="glass rounded-3xl p-8 mt-6">
+          <h3 class="text-2xl font-bold mb-5">🤖 AI Recruiter Report</h3>
+          <div id="ats-report" class="text-slate-300 leading-loose whitespace-pre-line"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    let currentDomain = "";
+
+    function goToRoadmaps() {
+      const name = document.getElementById("username").value.trim();
+      if(!name){
+        alert("Please enter your name.");
+        return;
+      }
+
+      document.getElementById("step-login").classList.add("hidden-step");
+      document.getElementById("step-roadmaps").classList.remove("hidden-step");
+
+      window.scrollTo({
+        top: document.getElementById("step-roadmaps").offsetTop,
+        behavior:"smooth"
+      });
+    }
+
+    async function selectDomain(domainName){
+      currentDomain = domainName;
+      document.getElementById("selected-title").innerText = domainName + " Career Roadmap";
+
+      const formData = new FormData();
+      formData.append("domain", domainName);
+      formData.append("cv_text", "dummy");
+
+      const response = await fetch('/start_interview', {
+        method:'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      document.getElementById("selected-content").innerText = data.question;
+
+      document.getElementById("roadmap-display").classList.remove("hidden-step");
+
+      window.scrollTo({
+        top: document.getElementById("roadmap-display").offsetTop,
+        behavior:"smooth"
+      });
+    }
+
+    function showAtsSection(){
+      document.getElementById("step-ats").classList.remove("hidden-step");
+
+      window.scrollTo({
+        top: document.getElementById("step-ats").offsetTop,
+        behavior:"smooth"
+      });
+    }
+
+    function updateFileName(){
+      const file = document.getElementById("cv-file").files[0];
+      if(file){
+        document.getElementById("file-name").innerText = file.name;
+      }
+    }
+
+    async function runAtsAnalysis(){
+      const fileInput = document.getElementById("cv-file");
+      if(fileInput.files.length === 0){
+        alert("Please upload your CV.");
+        return;
+      }
+
+      document.getElementById("loading").classList.remove("hidden-step");
+
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+      formData.append('domain', currentDomain);
+
+      const response = await fetch('/upload_cv', {
+        method:'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      document.getElementById("loading").add ? document.getElementById("loading").classList.add("hidden-step") : document.getElementById("loading").classList.add("hidden-step");
+
+      document.getElementById("ats-score").innerText = "%" + data.score;
+
+      const missingList = document.getElementById("ats-missing");
+      missingList.innerHTML = "";
+
+      data.missing_keywords.forEach(kw => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+        <div class="bg-slate-900/60 border border-white/10 rounded-xl px-4 py-3">
+        ⚠️ ${kw}
+        </div>
+        `;
+        missingList.appendChild(li);
+      });
+
+      const reportFormData = new FormData();
+      reportFormData.append('conversation', 'completed');
+      reportFormData.append('domain', currentDomain);
+
+      const reportRes = await fetch('/get_report', {
+        method:'POST',
+        body: reportFormData
+      });
+
+      const reportData = await reportRes.json();
+      document.getElementById("ats-report").innerText = reportData.report;
+
+      document.getElementById("ats-result").classList.remove("hidden-step");
+
+      window.scrollTo({
+        top: document.getElementById("ats-result").offsetTop,
+        behavior:"smooth"
+      });
+    }
+  </script>
+</body>
+</html>

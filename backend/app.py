@@ -1,114 +1,71 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-from sqlalchemy.orm import Session
-from pathlib import Path
-import shutil
+import os
+from fastapi import FastAPI, Form, UploadFile, File, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
-# Klasör içi çağrıları mutlak (absolute) hale getirerek VS Code'u rahatlatıyoruz
-import database
-import models
-import schemas
-import repository
-
-from database import engine, get_db
-from models import Base
-from schemas import CandidateCreate, AnswerIn
-from repository import (
-    get_candidate,
-    create_candidate,
-    create_cv,
-    get_latest_cv,
-    create_interview,
-    get_interview,
-    save_interview,
-)
-from services.cv_parser import parse_cv
-from services.ats import compute_ats_score
+# Yeni yazdığımız 20 alanlık fonksiyonları içeri aktarıyoruz
 from services.interview import (
+    compute_ai_ats_score,
     generate_first_question,
     generate_followup_question,
     evaluate_answer,
-    generate_report,
+    generate_report
 )
 
-BASE_DIR = Path(__file__).resolve().parent
-UPLOAD_DIR = BASE_DIR / "uploads"
-UPLOAD_DIR.mkdir(exist_ok=True)
+app = FastAPI(title="AI ATS & 20 IT Career Roadmap")
 
-app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# Klasör dizin yapına uyması için static yolunu güncelledik
-app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
-Base.metadata.create_all(bind=engine)
+# Klasör yolu hatasını engellemek için dinamik arama yapıyoruz
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+templates_dir = os.path.join(BASE_DIR, "templates")
 
-@app.get("/")
-def read_index():
-    return FileResponse(BASE_DIR / "static" / "index.html")
+# Eğer backend/templates yoksa, bir üst klasördeki templates'e bak emniyeti
+if not os.path.exists(templates_dir):
+    templates_dir = os.path.join(os.path.dirname(BASE_DIR), "templates")
 
-@app.post("/api/candidates")
-def api_create_candidate(input: CandidateCreate, db: Session = Depends(get_db)):
-    candidate = create_candidate(db, input.name, input.email, input.domain)
-    return {"id": candidate.id, "name": candidate.name, "domain": candidate.domain}
-
-@app.post("/api/upload-cv")
-def upload_cv(candidate_id: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
-    candidate = get_candidate(db, candidate_id)
-    if not candidate:
-        raise HTTPException(status_code=404, detail="Aday bulunamadı.")
-    filename = file.filename
-    target_path = UPLOAD_DIR / filename
-    with open(target_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+templates = Jinja2Templates(directory=templates_dir)
+@app.get("/", response_class=HTMLResponse)
+async def get_index(request: Request):
+    """Ana sayfa yükleme rotası - Yeni standart dizilim"""
+    return templates.TemplateResponse(request=request, name="index.html")
+@app.post("/start_interview")
+async def start_interview(domain: str = Form(...), cv_text: str = Form(None)):
+    """Butonlara tıklandığında yol haritasını fırlatan ana köprü"""
     try:
-        text = parse_cv(str(target_path), filename)
-    except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc))
-    score, missing = compute_ats_score(text, candidate.domain)
-    cv = create_cv(
-        db,
-        candidate.id,
-        filename,
-        text,
-        score,
-        candidate.domain,
-        ", ".join(missing),
-    )
-    return {"candidate_id": cv.candidate_id, "filename": cv.filename, "score": cv.score, "missing_keywords": missing}
+        roadmap_content = generate_first_question(domain, cv_text or "")
+        return {"question": roadmap_content}
+    except Exception as e:
+        return {"question": f"⚠️ Yol haritası yüklenirken bir hata oluştu: {str(e)}"}
 
-@app.post("/api/interview/start")
-def start_interview(candidate_id: int, db: Session = Depends(get_db)):
-    candidate = get_candidate(db, candidate_id)
-    if not candidate:
-        raise HTTPException(status_code=404, detail="Aday bulunamadı.")
-    cv = get_latest_cv(db, candidate.id)
-    if not cv:
-        raise HTTPException(status_code=400, detail="CV yüklenmemiş.")
-    question = generate_first_question(candidate.domain, cv.text)
-    session = create_interview(db, candidate.id, candidate.domain, question)
-    return {"interview_id": session.id, "question": question, "status": session.status}
+@app.post("/upload_cv")
+async def upload_cv(file: UploadFile = File(...), domain: str = Form(...)):
+    """İsteğe bağlı ATS analizi butonuna basıldığında çalışan rota"""
+    try:
+        contents = await file.read()
+        cv_text = contents.decode("utf-8", errors="ignore")
+        
+        score, missing_keywords = compute_ai_ats_score(cv_text, domain)
+        return {
+            "score": score,
+            "missing_keywords": missing_keywords,
+            "status": "success"
+        }
+    except Exception as e:
+        return {"score": 0, "missing_keywords": ["Dosya okunamadı"], "status": "error"}
 
-@app.post("/api/interview/answer")
-def answer_interview(payload: AnswerIn, db: Session = Depends(get_db)):
-    session = get_interview(db, payload.interview_id)
-    if not session:
-        raise HTTPException(status_code=404, detail="Mülakat oturumu bulunamadı.")
-    cv = get_latest_cv(db, session.candidate_id)
-    if not cv:
-        raise HTTPException(status_code=400, detail="CV yok.")
-    feedback = evaluate_answer(payload.answer, session.last_question, cv.text)
-    followup = generate_followup_question(session.domain, cv.text, session.conversation, payload.answer)
-    session.conversation += f"CEVAP: {payload.answer}\nDEĞERLENDİRME: {feedback}\nSORU: {followup}\n"
-    session.last_question = followup
-    save_interview(db, session)
-    return {"interview_id": session.id, "feedback": feedback, "next_question": followup}
-
-@app.get("/api/report/{interview_id}")
-def get_report(interview_id: int, db: Session = Depends(get_db)):
-    session = get_interview(db, interview_id)
-    if not session:
-        raise HTTPException(status_code=404, detail="Mülakat oturumu bulunamadı.")
-    if not session.report:
-        session.report = generate_report(session.conversation, session.domain)
-        save_interview(db, session)
-    return {"interview_id": session.id, "report": session.report}
+@app.post("/get_report")
+async def get_report(conversation: str = Form(...), domain: str = Form(...)):
+    """Finaldeki resmi İK Raporunu getiren rota"""
+    try:
+        report_content = generate_report(conversation, domain)
+        return {"report": report_content}
+    except Exception as e:
+        return {"report": f"Rapor oluşturulamadı: {str(e)}"}
