@@ -43,15 +43,15 @@ def generate_first_question(domain: str, cv_text: str) -> str:
     """20 Farklı IT Alanına Göre İnternette Bulunamayacak Derinlikte Akademik ve Sektörel Yol Haritası Üretir."""
     d = domain.lower()
     
-    # 1. SİBER GÜVENKİK
+    # 1. SİBER GÜVENLİK
     if "cyber" in d or "siber" in d:
       return (
-          "🛡️ **MÜHENDİSLİK SEVİYESİ SİBER GÜVENKİK VE NETWORK DEFENSE YOL HARİTASI**\n\n"
+          "🛡️ **MÜHENDİSLİK SEVİYESİ SİBER GÜVENLİK VE NETWORK DEFENSE YOL HARİTASI**\n\n"
           "### 📘 1. TEORİK VE PRATİK ÇALIŞILMASI GEREKEN TEKNOLOJİ KATMANLARI\n"
           "**A. Ağ Güvenliği ve Protokol Analitiği:** OSI katmanlarının paket düzeyinde analizi. Wireshark kullanarak TCP Three-Way Handshake, DNS sızıntıları, ARP Poisoning ve DHCP Starvation saldırılarının PCAP analizi üzerinden tespiti.\n"
           "**B. Linux Sistem Güvenliği:** Linux dosya sistem mimarisi, `chmod/chown` yetkilendirme zafiyetleri, `cronjob` üzerinden kalıcılık (persistence) sağlama yöntemleri ve Bash Scripting ile otomatik log analizi yazımı.\n"
           "**C. Ofansif Güvenlik (Penetration Testing):** OWASP Top 10 zafiyetlerinin (SQL Injection, XSS, CSRF, IDOR) PortSwigger Labs üzerinde pratik edilmesi. Nmap ile gelişmiş script (`--script`) kullanımı, Metasploit Framework ile exploit aşamaları ve Burp Suite ile HTTP istek manipülasyonu.\n"
-          "**D. Defansif Güvenlik ve SOC Analizörlüğü:** Splunk veya ELK Stack üzerinde log korelasyon kuralları yazma. Tehdit tespiti için SIEM kuralları geliştirme and Windows Event Log (Sysmon) analizi ile şüpheli süreçlerin (Process Injection) tespiti.\n\n"
+          "**D. Defansif Güvenlik ve SOC Analizörlüğü:** Splunk veya ELK Stack üzerinde log korelasyon kuralları yazma. Tehdit tespiti için SIEM kuralları geliştirme ve Windows Event Log (Sysmon) analizi ile şüpheli süreçlerin (Process Injection) tespiti.\n\n"
           "### 📅 2. 4 HAFTALIK UYGULAMALI HIZLANDIRILMIŞ PROGRAM\n"
           "- **1. Hafta (Network Core & Packet Sniffing):** Cisco Packet Tracer üzerinde VLAN, ACL ve NAT protokollerinin güvenli konfigürasyonu. Wireshark ile ağ trafiğinde şifresiz gezen (HTTP, FTP) kimlik bilgilerinin yakalanması ve analiz raporunun yazılması.\n"
           "- **2. Hafta (Linux OS Hardening & Reconnaissance):** Linux sunucularda gereksiz portların kapatılması, SSH anahtar tabanlı kimlik doğrulama yapılandırılması. Hedef sistem üzerinde Nmap ve Gobuster ile zafiyet taraması ve alt alan adı keşfi.\n"
@@ -107,7 +107,7 @@ def generate_first_question(domain: str, cv_text: str) -> str:
             "### 📘 1. TEORİK VE PRATİK ÇALIŞILMASI GEREKEN TEKNOLOJİ KATMANLARI\n"
             "**A. İleri Düzey Çekirdek UI & JS:** HTML5 Semantik etiket yapısı, CSS3 Grid ve Flexbox ile responsive tasarım mimarisi. Modern JavaScript (ES6+): Scope kavramları (Closure, Hoisting), Asenkron programlama (Promises, Async/Await), Event Loop ve DOM manipülasyonu.\n"
             "**B. Component Mimarisi (React.js):** React yaşam döngüsü (Lifecycle), Hooks (useState, useEffect, useMemo, useCallback), Virtual DOM çalışma mantığı ve bileşenler arası veri taşıma (Props, State).\n"
-            "**C. Küresel Eyalet Yönetimi (State Management):** Prop Drilling sorununu çözmek için Context API ve büyük ölçekli uygulamalar için Redux Toolkit (Actions, Reducers, Slices) mimarinisin kurulması.\n"
+            "**C. Küresel Eyalet Yönetimi (State Management):** Prop Drilling sorununu çözmek için Context API ve büyük ölçekli uygulamalar için Redux Toolkit (Actions, Reducers, Slices) mimarisinin kurulması.\n"
             "**D. Stil ve Build Araçları:** Tailwind CSS ile hızlı UI geliştirme, modern paketleyiciler (Vite, Webpack) ile dosya boyutlarının küçültülmesi ve performans optimizasyon süreçleri.\n\n"
             "### 📅 2. 4 HAFTALIK UYGULAMALI HIZLANDIRILMIŞ PROGRAM\n"
             "- **1. Hafta (ES6+ ve Tailwind UI):** JavaScript asenkron veri çekme mekanizmalarının pratik edilmesi. Tailwind CSS kullanılarak tamamen responsive, karanlık mod destekli kurumsal bir dashboard arayüz kodlaması.\n"
@@ -130,7 +130,7 @@ def generate_first_question(domain: str, cv_text: str) -> str:
             "**D. Dış Servisler ve Dağıtım:** Firebase Firebase Auth, Push Notifications, Crashlytics (Hata Takibi) entegrasyonu. App Store ve Google Play Store dağıtım (Build, İmzalanma, Sürüm Yönetimi) süreçleri.\n\n"
             "### 📅 2. 4 HAFTALIK UYGULAMALI HIZLANDIRILMIŞ PROGRAM\n"
             "- **1. Hafta (Mobil Arayüz ve Tasarım Kalıpları):** Seçilen dilde (Örn: Dart/Flutter) clean-architecture prensiplerine uygun klasör düzeninin kurulması. Malzeme tasarımı (Material Design / Cupertino) öğeleriyle pürüzsüz bir arayüz kodlanması.\n"
-            "- **2. Hafta (İleri Durum Yönetimi ve API):** BLoC veya Riverpod mimarisi kurularak bir REST API üzerinden veri çekilmesi. Uygulama içi state'lerin yüklenme (loading), başarı (success) ve hata (error) durumlarının state-machine mantığıyla yönetilmesi.\n"
+            "- **2. Hafta (İleri Durum Yönetimi ve API):** BLoC veya Riverpod mimarisi kurularak bir REST API üzerinden veri çekilmesi. Uygulama içi state'lerin yüklenme (loading), başarı (success) og hata (error) durumlarının state-machine mantığıyla yönetilmesi.\n"
             "- **3. Hafta (Yerel Hafıza ve Firebase):** İnternet olmadığında uygulamanın çalışabilmesi için verilerin Hive/SQLite veri tabanına önbelleğe alınması (Offline-First Architecture). Firebase Push Notification servisinin telefona entegre edilmesi.\n"
             "- **4. Hafta (Performans ve Mağaza Sürümleme):** Uygulama açılış hızının optimize edilmesi, gereksiz widget çizimlerinin önüne geçilmesi. Android Studio ve Xcode üzerinden deployment paketlerinin (APK, AAB, IPA) oluşturulması.\n\n"
             "### 🏢 3. ÇALIŞILABİLECEK ŞİRKETLER VE KURUMSAL BEKLENTİLER\n"
@@ -160,7 +160,7 @@ def generate_first_question(domain: str, cv_text: str) -> str:
     # 7. BULUT BİLİŞİM
     elif "cloud" in d or "bulut" in d:
         return (
-            "☁️ **KURUMSUR BULUT MÜHENDİSLİĞİ VE CLOUD ARCHITECTURE YOL HARİTASI**\n\n"
+            "☁️ **KURUMSAL BULUT MÜHENDİSLİĞİ VE CLOUD ARCHITECTURE YOL HARİTASI**\n\n"
             "### 📘 1. TEORİK VE PRATİK ÇALIŞILMASI GEREKEN TEKNOLOJİ KATMANLARI\n"
             "**A. Bulut Ağ Yönetimi (Networking):** AWS veya Azure üzerinde Virtual Private Cloud (VPC) mimarisi. Kamu ve özel alt ağlar (Public/Private Subnets), İnternet Ağ Geçitleri (Internet Gateway), NAT Gateway konfigürasyonu ve Route Table mantığı.\n"
             "**B. Bilgi İşlem ve Güvenlik:** Sanal sunucu yönetimi (AWS EC2), Kimlik ve Erişim Yönetimi (IAM) politikaları ile minimum yetki prensibi (Principle of Least Privilege). Güvenlik Grupları (Security Groups) ve Ağ Erişim Kontrol Listeleri (NACLs).\n"
@@ -200,7 +200,7 @@ def generate_first_question(domain: str, cv_text: str) -> str:
         return (
             "🧪 **OTOMASYON TABANLI YAZILIM TEST MÜHENDİSLİĞİ (QA ENG) YOL HARİTASI**\n\n"
             "### 📘 1. TEORİK VE PRATİK ÇALIŞILMASI GEREKEN TEKNOLOJİ KATMANLARI\n"
-            "**A. Test Metodolojileri:** SDLC (Yazılım Geliştirme Yaşam Döngüsü) içinde test süreçleri. Sınır Değer Analizi (Boundary Value Analysis), Eşdeğer Parçalara Bölme (Equivalence Partitioning) teknikleri ile manuel test senaryosu tasarımı (Jira / Xray).\n"
+            "**A. Test Metodolojileri:** SDLC (Yazılım Geliştirme Yaşam Dönöngüsü) içinde test süreçleri. Sınır Değer Analizi (Boundary Value Analysis), Eşdeğer Parçalara Bölme (Equivalence Partitioning) teknikleri ile manuel test senaryosu tasarımı (Jira / Xray).\n"
             "**B. UI Otomasyon Test Mimarisi:** JavaScript/TypeScript tabanlı Cypress veya Playwright, ya da Java/Python tabanlı Selenium WebDriver kullanımı. Page Object Pattern (POM) tasarım kalıbı ile sürdürülebilir test kodları yazımı.\n"
             "**C. API ve Sözleşme Testleri:** Postman ile API endpoint entegrasyon test senaryoları yazma, JavaScript tabanlı assertion kütüphaneleriyle dönen JSON şemalarının doğruluğunun otomatik denetlenmesi.\n"
             "**D. Performans ve Yük Testleri:** Apache JMeter veya Locust araçlarıyla sistemin eşzamanlı binlerce kullanıcı altındaki davranışlarının, yanıt sürelerinin ve sunucu darboğazlarının ölçülmesi.\n\n"
@@ -323,7 +323,7 @@ def generate_report(conversation: str, domain: str) -> str:
         "**Analiz Türü:** Özgeçmiş Anahtar Kelime Tarama & Kariyer Planlama\n\n"
         "**📊 ATS SKORU VE ANALİZİ:**\n"
         "Adayın özgeçmişi incelendiğinde, temel mühendislik kavramlarına hakim olduğu görülmüştür. "
-        "Ancak hedeflenen kurumsal şirketlerin ilanlarındaki bazı spesifik kütüphanelerin eksikliği saptanmış ve "
+        "Ancak hedeflenen kurumsal şirketlerin ilanlarındaki some spesifik kütüphanelerin eksikliği saptanmış ve "
         "yukarıda listelenen 4 haftalık müfredat adayın profiline atanmıştır.\n\n"
         "**💡 KURUMSAL BAŞVURU STRATEJİLERİ:**\n"
         "1. **Staj Başvuruları:** Belirtilen staj yerlerine başvururken, CV'nizin en üst kısmına 'Hedeflenen Yol Haritası Konuları' şeklinde bir başlık ekleyerek bu teknolojileri çalıştığınızı vurgulayın.\n"
@@ -332,33 +332,31 @@ def generate_report(conversation: str, domain: str) -> str:
     )
 
 # =========================================================================
-# 🤖 YENİ EKLEMELİ SİHİRLİ BÖLÜM: CANLI GOOGLE GEMINI SORU MOTORU
-# =========================================================================
+# 🤖 CANLI GOOGLE GEMINI SORU MOTORU (DÜZELTİLMİŞ HALİ)
+# ======================================================================
 def get_interview_questions_from_ai(domain: str) -> list:
-    """Seçilen alana göre Google Gemini API kullanarak anlık 3 mülakat sorusu üretir."""
-    # Google AI Studio'dan az önce aldığın o gıcık uzun kodu aşağıdaki tırnak işaretlerinin içine yapıştır canım!
-    api_key = os.getenv("GEMINI_API_KEY") or "BURAYA_KOPYALADIGIN_AIzaSy_ILE_BASLAYAN_ANAHTARI_YAPISTIR"
+    """Seçilen alana göre Gemini API kullanarak 3 soru ve bunların 100 puanlık ideal cevaplarını üretir."""
+    api_key = os.getenv("GEMINI_API_KEY") or "AIzaSyA8Ez6dq57XmgvrrWPkF-LUFe2cye5kDs4"
     
-    # Eğer anahtarı yapıştırmayı unutursan jüri önünde çökmeyelim diye fall-back koruması
-    if api_key == "AIzaSyA8Ez6dq57XmgvrrWPkF-LUFe2cye5kDs4" or not api_key:
+    # Emniyet kemeri / Fallback mekanizması
+    if api_key == "BURAYA_KOPYALADIGIN_AIzaSy_ILE_BASLAYAN_ANAHTARI_YAPISTIR" or not api_key:
         return [
-            f"1. {domain} altyapılarında veri güvenliğini ve sızıntıları önlemek için hangi şifreleme katmanlarını tasarlarsınız?",
-            f"2. Kurumsal bir ölçekte {domain} süreçlerinde karşılaşabileceğiniz en büyük mimari performans darboğazı nedir?",
-            f"3. Kıdemli bir {domain} mühendisi olarak, canlı sistem çöktüğünde (Crash) loglardan root-cause analizini nasıl yaparsınız?"
+            {"q": f"1. {domain} altyapılarında veri sızıntılarını önlemek için hangi şifreleme katmanlarını tasarlarsınız?", "a": "Production ortamında veri hem hareket halindeyken (In-Transit: TLS 1.3) hem de durur kısımdayken (At-Rest: AES-256) şifrelenmelidir. Veritabanı seviyesinde sütun bazlı şifreleme ve uygulama katmanında KMS (Key Management Service) entegrasyonu kurgulanmalıdır."},
+            {"q": f"2. Kurumsal bir ölçekte {domain} süreçlerinde karşılaşabileceğiniz en büyük mimari performans darboğazı nedir?", "a": "En büyük darboğaz senkron (blocking) I/O çağrıları ve veritabanı kilitlenmeleridir (Locking). Çözüm olarak yoğun yük alan endpoint'ler Redis ile önbelleğe alınmalı ve servisler arası iletişim Kafka gibi asenkron message broker mimarilerine taşınmalıdır."},
+            {"q": f"3. Kıdemli bir {domain} mühendisi olarak, canlı sistem çöktüğünde loglardan root-cause analizini nasıl yaparsınız?", "a": "İlk olarak merkezi loglama sisteminden (ELK/Grafana Loki) 'Critical' ve 'Error' etiketli loglar süzülür. Çökme anındaki CPU/Memory metrikleri incelenir. Distributed Tracing (Jaeger/APM) kullanılarak hatanın hangi mikroservisten tetiklendiği nokta atışı bulunur."}
         ]
 
     try:
-        # Yeni resmi google-genai SDK'sına tam uyumlu başlatma
         client = genai.Client(api_key=api_key)
         
         prompt = (
             f"Sen kurumsal bir şirkette Teknik İK Müdürü ve Baş Mühendissin. "
             f"Aday bize '{domain}' alanında staj/iş başvurusu yaptı. "
             f"Bu adayı elemek ve teknik derinliğini ölçmek için mülakat odasında sorulabilecek, "
-            f"internette doğrudan cevabı olmayan, senaryo bazlı (scenario-based) en kritik 3 teknik mülakat sorusunu üret. "
-            f"Sorular kesinlikle Türkçe olsun. "
-            f"Yanıtı sadece ve sadece saf bir JSON listesi (Array) olarak dön. Başka hiçbir açıklama, markdown veya ```json kod bloğu ekleme. "
-            f"Örnek çıktı formatı: [\"Soru 1...\", \"Soru 2...\", \"Soru 3...\"]"
+            f"senaryo bazlı en kritik 3 teknik mülakat sorusunu VE bu sorulara karşılık mülakatta 100 puan almayı sağlayacak en ideal, "
+            f"kısa ve net teknik cevapları üret. Sorular ve cevaplar kesinlikle Türkçe olsun. "
+            f"Yanıtı sadece ve sadece saf bir JSON listesi (Array of Objects) olarak dön. Başka hiçbir açıklama ekleme. "
+            f"Örnek çıktı formatı: [ {{\"q\": \"Soru 1...\", \"a\": \"İdeal Cevap 1...\"}}, {{\"q\": \"Soru 2...\", \"a\": \"İdeal Cevap 2...\"}} ]"
         )
         
         response = client.models.generate_content(
@@ -369,14 +367,12 @@ def get_interview_questions_from_ai(domain: str) -> list:
             )
         )
         
-        # Gelen JSON string'ini Python Array listesine parse ediyoruz
-        questions_list = json.loads(response.text)
-        return questions_list
+        return json.loads(response.text)
         
     except Exception as e:
-        # Herhangi bir bağlantı veya kota aşımı durumunda akışı durdurmayan kurtarıcı emniyet sibobu
+        # Hata durumunda sistemin durmaması için emniyet sibobu
         return [
-            f"1. {domain} mimarisinde senkron ve asenkron süreçlerin yönetimini kurumsal düzeyde nasıl kurgularsınız?",
-            f"2. Ölçeklenebilir bir {domain} projesinde mikroservis yaklaşımlarının en büyük dezavantajı nedir ve nasıl aşılır?",
-            f"3. Sektör standartlarına göre {domain} pipeline süreçlerinde 'Clean Code' denetimini otomatize nasıl edersiniz?"
+            {"q": f"1. {domain} mimarisinde senkron ve asenkron süreçlerin yönetimini nasıl kurgularsınız?", "a": "Anlık yanıt gerektiren kritik işlemler senkron REST/gRPC ile, arka plan işleri (e-posta, raporlama) ise RabbitMQ veya Kafka üzerinden asenkron event'lerle yönetilmelidir."},
+            {"q": f"2. Ölçeklenebilir bir {domain} projesinde mikroservis yaklaşımlarının en büyük dezavantajı nedir?", "a": "En büyük dezavantajı dağıtık sistemlerdeki veri tutarlılığı (Data Consistency) yönetimidir. Bu problemi aşmak için Saga Pattern veya İki Aşamalı Commit (2PC) gibi mimari kalıplar uygulanmalıdır."},
+            {"q": f"3. Sektör standartlarına göre {domain} pipeline süreçlerinde 'Clean Code' denetimini nasıl yaparsınız?", "a": "CI/CD süreçlerine SonarQube gibi statik kod analizi (SAST) araçları entegre edilir. Belirlenen test kapsama oranı (Code Coverage %80) ve clean code kuralları geçilmeden kodun production branch'ine birleşmesi (Merge) otomatik olarak engellenir."}
         ]

@@ -38,12 +38,22 @@ async def get_index(request: Request):
     return templates.TemplateResponse(request=request, name="index.html")
 @app.post("/start_interview")
 async def start_interview(domain: str = Form(...), cv_text: str = Form(None)):
-    """Butonlara tıklandığında yol haritasını fırlatan ana köprü"""
+    """Butonlara tıklandığında yol haritasını döner ve Gemini ile anlık canlı sorular üretir"""
     try:
+        from services.interview import generate_first_question, get_interview_questions_from_ai
+        
+        # 1. Hazır olan akademik 4 haftalık yol haritasını çekiyoruz
         roadmap_content = generate_first_question(domain, cv_text or "")
-        return {"question": roadmap_content}
+        
+        # 2. Canlı soruları Gemini motorundan fırlatıyoruz!
+        interview_qs = get_interview_questions_from_ai(domain)
+        
+        return {
+            "question": roadmap_content,
+            "interview_questions": interview_qs
+        }
     except Exception as e:
-        return {"question": f"⚠️ Yol haritası yüklenirken bir hata oluştu: {str(e)}"}
+        return {"question": f"⚠️ Bir hata oluştu: {str(e)}", "interview_questions": []}
 
 @app.post("/upload_cv")
 async def upload_cv(file: UploadFile = File(...), domain: str = Form(...)):
